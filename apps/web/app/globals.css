@@ -1,0 +1,276 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Outfit", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+:root {
+  /* Palette Dark Violet - Shadow & Space */
+  --background: 260 25% 6%;         /* Violetto notte profondo */
+  --foreground: 260 12% 93%;         /* Grigio-lilla chiarissimo */
+  --card-bg: 260 22% 9.5% / 0.85;    /* Card viola scurissimo leggermente opaca */
+  --card-border: transparent;        /* NESSUN BORDO per le card */
+  --border-color: 260 18% 13% / 0.6; /* Separatori interni e tabelle molto discreti */
+  
+  --primary: 272 90% 72%;           /* Lilla elettrico / Ametista neon per accenti */
+  --primary-hover: 272 90% 64%;
+  --primary-glow: 272 90% 72% / 0.12;
+  
+  --success: 150 82% 52%;           /* Verde menta/salvia neon per stati stabili */
+  --success-glow: 150 82% 52% / 0.12;
+  
+  --error: 355 85% 60%;             /* Rosso cremisi per guasti e alert */
+  --error-glow: 355 85% 60% / 0.12;
+  
+  --warning: 35 92% 56%;            /* Ambra caldo per warning */
+  --warning-glow: 35 92% 56% / 0.12;
+  
+  --muted: 260 8% 62%;              /* Testo secondario */
+  
+  /* Layout Tokens - Shadow & Space */
+  --radius: 2px;
+  --radius-inner: 2px;
+  
+  /* Ombra morbida ed estesa per l'effetto galleggiamento */
+  --shadow-glow: 0 25px 50px -12px rgba(0, 0, 0, 0.65), 
+                 0 8px 24px -8px rgba(139, 92, 246, 0.08);
+}
+
+/* Stili Base di reset */
+html, body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+  min-height: 100vh;
+  background-image: radial-gradient(at 50% 0%, hsl(260 25% 9%) 0px, transparent 80%);
+  background-repeat: no-repeat;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   DESIGN SYSTEM - CLASSI SEMANTICHE COMPATTE (SHADOW & SPACE)
+   ========================================================================== */
+
+/* Pannelli Glassmorphic (Senza bordi, basati su ombre) */
+.glass-panel {
+  background-color: hsl(var(--card-bg));
+  border: 1px solid transparent; /* Mantiene allineamento layout ma invisibile */
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-glow);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-hover:hover {
+  will-change: transform;
+  box-shadow: 
+    0 30px 60px -12px rgba(0, 0, 0, 0.85),
+    0 0 25px -4px hsl(var(--primary) / 0.18);
+  transform: translateY(-2px);
+  border-left-color: hsl(var(--primary) / 0.3) !important;
+  border-right-color: hsl(var(--primary) / 0.3) !important;
+  border-bottom-color: hsl(var(--primary) / 0.3) !important;
+  border-top-color: hsl(var(--primary) / 0.3);
+}
+
+/* KPI Card speciale */
+.kpi-card {
+  background-color: hsl(var(--card-bg));
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-glow);
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  @apply p-6 flex flex-col justify-between relative overflow-hidden;
+}
+
+/* Pulsanti */
+@utility btn {
+  @apply px-4 py-2 rounded-[var(--radius-inner)] font-medium inline-flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 select-none text-sm;
+}
+
+@utility btn-primary {
+  @apply btn bg-[hsl(var(--primary))] text-neutral-950 hover:bg-[hsl(var(--primary-hover))] shadow-[0_4px_16px_-2px_rgba(139,92,246,0.3)] active:scale-[0.98];
+}
+
+@utility btn-secondary {
+  @apply btn bg-[hsl(var(--card-bg))] border border-[hsl(var(--border-color))] text-neutral-300 hover:bg-neutral-800/20 hover:text-white active:scale-[0.98];
+}
+
+@utility btn-danger {
+  @apply btn bg-[hsl(var(--error)/0.1)] border border-[hsl(var(--error)/0.25)] text-[hsl(var(--error))] hover:bg-[hsl(var(--error))] hover:text-white active:scale-[0.98];
+}
+
+@utility btn-sm {
+  @apply px-3 py-1.5 text-xs;
+}
+
+/* Micro pulsante icona */
+.btn-icon {
+  @apply p-2 min-w-[32px] min-h-[32px] flex items-center justify-center rounded-[var(--radius-inner)] bg-[hsl(var(--card-bg))] border border-[hsl(var(--border-color))] text-neutral-400 hover:text-white transition-colors cursor-pointer hover:bg-neutral-800/10;
+}
+
+/* Badge di stato */
+@utility badge {
+  @apply px-2.5 py-0.5 rounded-[var(--radius-inner)] text-[10px] font-semibold inline-flex items-center gap-1 uppercase tracking-wider select-none;
+}
+
+@utility badge-up {
+  @apply badge bg-[hsl(var(--success)/0.08)] text-[hsl(var(--success))] border border-[hsl(var(--success)/0.15)];
+}
+
+@utility badge-down {
+  @apply badge bg-[hsl(var(--error)/0.08)] text-[hsl(var(--error))] border border-[hsl(var(--error)/0.15)];
+}
+
+@utility badge-degraded {
+  @apply badge bg-[hsl(var(--warning)/0.08)] text-[hsl(var(--warning))] border border-[hsl(var(--warning)/0.15)];
+}
+
+@utility badge-paused {
+  @apply badge bg-neutral-900 text-neutral-500 border border-neutral-800/80;
+}
+
+/* Indicatori Pulse (Glow) */
+@utility pulse-dot {
+  @apply w-2 h-2 rounded-full relative;
+}
+
+@utility pulse-dot-up {
+  @apply pulse-dot bg-[hsl(var(--success))];
+  box-shadow: 0 0 8px 2px hsl(var(--success) / 0.4);
+}
+
+.pulse-dot-up::after {
+  content: '';
+  @apply absolute -inset-1 rounded-full border border-[hsl(var(--success))];
+  animation: soft-pulse 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@utility pulse-dot-down {
+  @apply pulse-dot bg-[hsl(var(--error))];
+  box-shadow: 0 0 8px 2px hsl(var(--error) / 0.4);
+}
+
+.pulse-dot-down::after {
+  content: '';
+  @apply absolute -inset-1 rounded-full border border-[hsl(var(--error))];
+  animation: soft-pulse 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@utility pulse-dot-degraded {
+  @apply pulse-dot bg-[hsl(var(--warning))];
+  box-shadow: 0 0 8px 2px hsl(var(--warning) / 0.4);
+}
+
+.pulse-dot-degraded::after {
+  content: '';
+  @apply absolute -inset-1 rounded-full border border-[hsl(var(--warning))];
+  animation: soft-pulse 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes soft-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0; }
+}
+
+@utility pulse-dot-paused {
+  @apply pulse-dot bg-neutral-600;
+}
+
+/* Elementi di input dei form */
+@utility form-group {
+  @apply flex flex-col gap-2 mb-4;
+}
+
+@utility form-label {
+  @apply text-[10px] font-semibold uppercase tracking-wider text-neutral-400 font-display;
+}
+
+@utility form-input {
+  @apply px-4 py-2.5 bg-[hsl(260_25%_4.5%)] border-0 rounded-[var(--radius-inner)] text-sm text-white focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary)/0.25)] transition-all placeholder:text-neutral-500;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.45);
+}
+
+@utility form-select {
+  @apply form-input appearance-none pr-10 relative cursor-pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23d8b4fe' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+}
+
+/* Filtro Pill */
+@utility filter-pill {
+  @apply px-3 py-1.5 rounded-[var(--radius-inner)] text-xs font-semibold tracking-wider transition-all cursor-pointer text-neutral-400 hover:text-white bg-transparent border border-transparent;
+}
+
+@utility filter-pill-active {
+  @apply text-white bg-[hsl(var(--card-bg))] border border-[hsl(var(--border-color))] shadow-sm px-3 py-1.5 rounded-[var(--radius-inner)] text-xs font-semibold tracking-wider transition-all cursor-pointer;
+}
+
+/* Toggle Switch */
+.toggle-switch-input:checked ~ .toggle-switch-bg {
+  background-color: hsl(var(--primary));
+}
+
+.toggle-switch-input:checked ~ .toggle-switch-bg .toggle-switch-handle {
+  transform: translateX(16px);
+  background-color: hsl(var(--background));
+}
+
+/* Icon Container */
+@utility icon-container {
+  @apply p-2 bg-[hsl(260_25%_4.5%)] border border-[hsl(var(--border-color))] rounded-[var(--radius-inner)] text-neutral-400 flex items-center justify-center;
+}
+
+/* Tabelle */
+.premium-table {
+  @apply w-full border-collapse text-left text-sm;
+}
+
+.premium-table th {
+  @apply pb-4 pt-2 px-4 border-b border-[hsl(var(--border-color))] text-[10px] font-semibold uppercase tracking-wider text-neutral-400 font-display;
+}
+
+.premium-table td {
+  @apply py-3.5 px-4 border-b border-[hsl(var(--border-color))]/40 text-neutral-300;
+}
+
+.premium-table tr:last-child td {
+  @apply border-b-0;
+}
+
+.premium-table tbody tr {
+  @apply hover:bg-neutral-800/10 transition-colors;
+}
+
+/* Layout Grid per Bento */
+.bento-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+/* Sidebar Navigation */
+@utility nav-item {
+  @apply flex items-center gap-3 px-4 py-3 rounded-[var(--radius-inner)] text-sm font-medium text-neutral-400 hover:text-white hover:bg-[hsl(var(--card-bg))]/40 transition-all select-none;
+}
+
+@utility nav-item-active {
+  @apply nav-item text-white bg-[hsl(var(--card-bg))] border border-[hsl(var(--border-color))] shadow-sm;
+}
+
+/* Uptime Bar */
+.uptime-bar-item {
+  @apply h-6 flex-1 rounded-xs cursor-pointer transition-transform duration-150 ease-out;
+}
+
+.uptime-bar-item:hover {
+  @apply scale-y-125;
+}
+

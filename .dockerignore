@@ -1,0 +1,57 @@
+# ==============================================================================
+# DOCKERIGNORE — SaaS API Monitor
+# Prevents accidental inclusion of credentials, temporary files, logs, and caches
+# during Docker container build processes.
+# ==============================================================================
+
+# Git & Version Control
+.git
+.gitignore
+.antigravityignore
+
+# Environment and Secrets (CRITICAL: never bake into container images)
+.env*
+!.env.example
+*.pem
+*.key
+*.cert
+
+# Dependencies and Build Artifacts
+node_modules
+**/node_modules
+.next
+**/.next
+dist
+**/dist
+build
+**/build
+out
+**/out
+.turbo
+**/.turbo
+*.tsbuildinfo
+**/*.tsbuildinfo
+next-env.d.ts
+.vercel
+
+# Debug Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# Documentation, scratchpads, and large assets
+*.pdf
+docs/
+.agents/
+.cursor/
+.vscode/
+.idea/
+todo.txt
+brainstorming*.md
+*_extracted.txt
+full_diff*.txt
+scripts/

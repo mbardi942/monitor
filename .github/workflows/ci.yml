@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  ci:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm build
+        env:
+          # Use mock mode so build doesn't require a real database or Redis
+          NEXT_PUBLIC_USE_MOCK: true
+          # Placeholder values required by the build step (not used at runtime in mock mode)
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/apimonitor
+          REDIS_URL: redis://localhost:6379
+          ENCRYPTION_KEY: ci-placeholder-encryption-key-32chars
+
+      - name: Run tests
+        run: pnpm test
+        env:
+          NEXT_PUBLIC_USE_MOCK: true

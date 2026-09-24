@@ -1,0 +1,129 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/
+
+# Build and Tooling Outputs
+.next/
+out/
+dist/
+build/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+.vercel/
+
+# Agent Temporary Files
+.agents/
+.antigravityignore
+AGENTS.md
+**/AGENTS.md
+CLAUDE.md
+**/CLAUDE.md
+# Documenti di lavoro interno (non per il repo pubblico)
+ROADMAP_PUBBLICAZIONE.md
+ISTRUZIONI_PUBBLICAZIONE*
+LEGGIMI*
+*.it.md
+**/*.it.md
+scripts/
+
+# =============================================================================
+# docs/ — Solo i file di lavoro interno vengono ignorati.
+# I file pubblici (architettura, roadmap, domain model, screenshots) sono tracciati.
+# =============================================================================
+docs/ROADMAP.md
+docs/brainstorming.md
+docs/analisi_dashboard_allarmistica.md
+docs/analisi_monitoraggio_infrastruttura.md
+docs/card_e_dettagli_polimorfici_*.md
+docs/*.plan.md
+docs/ddd_study_guide.md
+docs/domain_model_ddd.md
+docs/domain_model.final.md
+docs/feedback_piano_monitor.md
+docs/frontend_analysis_2026.md
+docs/frontend_audit_remediation.md
+docs/frontend_refactor_2026.md
+docs/frontend_refactor_2026_teoria.md
+docs/implementation_plan.md
+docs/piano_agente_infrastruttura.md
+docs/piano_agente_standalone.md
+docs/piano_monitor_database.md
+docs/piano_server_pull_agent.md
+docs/proposal-multistep-http-probes.md
+docs/usabilita_e_scenari_test_reali.md
+docs/# 🗺️ Roadmap di Sviluppo & Tracciamento.md
+docs/case-study/
+
+# Environment and Secrets
+.env*
+!.env.example
+*.pem
+*.key
+*.cert
+
+# Local Databases (SQLite, etc.)
+*.db
+*.sqlite
+*.sqlite-journal
+
+# Debug and Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+logs/
+*.log
+
+# Editor and OS-specific
+.idea/
+.vscode/
+.cursor/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python (in caso di script locali ed estrattori)
+*.py
+*.pyc
+__pycache__/
+.venv/
+venv/
+env/
+
+# =============================================================================
+# Copyright — PDF e risorse di terze parti
+# =============================================================================
+Implementing Domain-Driven Design.pdf
+*.pdf
+
+# =============================================================================
+# File di lavoro personale e temporanei (non rilevanti per il repository pubblico)
+# =============================================================================
+# Root-level scratchpad
+todo.txt
+brainstorming.md
+brainstorming_api_monitor.md
+CLAUDE.md
+feedback_piano_monitor.md
+SKILL.md
+skills-lock.json
+
+# Dump e diff temporanei
+full_diff.txt
+full_diff_utf8.txt
+ch02_extracted.txt
+
+# Audit interne
+audit1/
+
+# File estratti da libri
+*_extracted.txt

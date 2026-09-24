@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "composite": true
+  },
+  "include": ["src/**/*"],
+  "references": [
+    { "path": "../shared-kernel" },
+    { "path": "../db" },
+    { "path": "../event-bus" },
+    { "path": "../monitoring" },
+    { "path": "../scheduling" }
+  ]
+}

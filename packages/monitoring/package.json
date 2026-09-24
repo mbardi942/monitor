@@ -1,0 +1,23 @@
+{
+  "name": "@monitor/monitoring",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rimraf dist",
+    "test": "vitest run src/",
+    "test:watch": "vitest src/"
+  },
+  "dependencies": {
+    "@monitor/db": "workspace:*",
+    "@monitor/event-bus": "workspace:*",
+    "@monitor/shared-kernel": "workspace:*",
+    "drizzle-orm": "^0.30.10"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.7",
+    "typescript": "^5.4.5"
+  }
+}

@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: api-monitor-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgrespassword}
+      POSTGRES_DB: ${POSTGRES_DB:-apimonitor}
+    ports:
+      # Binding vincolato a localhost (127.0.0.1) per evitare l'esposizione accidentale su IP pubblici/Internet
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./packages/db/migrations/0000_cool_oracle.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: api-monitor-redis
+    ports:
+      # Binding vincolato a localhost (127.0.0.1) per proteggere Redis non autenticato da accessi esterni
+      - "127.0.0.1:6379:6379"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        - NEXT_PUBLIC_USE_MOCK=false
+    container_name: api-monitor-web
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgrespassword}@postgres:5432/${POSTGRES_DB:-apimonitor}
+      - REDIS_URL=redis://redis:6379
+      - NEXT_PUBLIC_USE_MOCK=false
+      - "ENCRYPTION_KEY=${ENCRYPTION_KEY:?ERRORE SICUREZZA - ENCRYPTION_KEY non impostata. Genera una chiave AES-256 esadecimale a 64 caratteri (es. openssl rand -hex 32) e definiscila nel file .env}"
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    container_name: api-monitor-worker
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgrespassword}@postgres:5432/${POSTGRES_DB:-apimonitor}
+      - REDIS_URL=redis://redis:6379
+      - "ENCRYPTION_KEY=${ENCRYPTION_KEY:?ERRORE SICUREZZA - ENCRYPTION_KEY non impostata. Genera una chiave AES-256 esadecimale a 64 caratteri (es. openssl rand -hex 32) e definiscila nel file .env}"
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+# DATABASE SCHEMA INITIALIZATION:
+# The initial schema (Point 0) is automatically applied on first start via /docker-entrypoint-initdb.d/
+# For future schema changes, apply new migrations from the host via:
+#   pnpm --filter @monitor/db db:migrate
+# Or inspect the database with Drizzle Studio:
+#   pnpm --filter @monitor/db db:studio
+
+volumes:
+  postgres_data:

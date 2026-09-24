@@ -1,0 +1,32 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/bootstrap.ts",
+    "start": "node dist/bootstrap.js",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@monitor/db": "workspace:*",
+    "@monitor/event-bus": "workspace:*",
+    "@monitor/monitoring": "workspace:*",
+    "@monitor/notification": "workspace:*",
+    "@monitor/reporting": "workspace:*",
+    "@monitor/scheduling": "workspace:*",
+    "@monitor/shared-kernel": "workspace:*",
+    "bullmq": "^5.8.2",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.30.10",
+    "ioredis": "^5.4.1",
+    "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.6",
+    "rimraf": "^5.0.7",
+    "tsx": "^4.19.1",
+    "typescript": "^5.4.5"
+  }
+}
